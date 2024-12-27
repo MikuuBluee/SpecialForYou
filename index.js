@@ -1,13 +1,21 @@
 const colors = [
-	"#ff6f91",
-	"#ff9671",
-	"#ffc75f",
-	"#f9f871",
-	"#ff4c4c",
-	"#ffcc00"
+	"#6495ED",
+	"#FFD700",
+	"#98FB98",
+	"#FA8072",
+	"#2E8B57",
+	"#87CEEB"
 ];
 const letters = "I LOVE YOU";
 let letterIndex = 0;
+let audioStarted = false;
+
+var fontSize = 20;
+if (window.screen.width > 1200){
+	fontSize = 55;
+} else if (window.screen.width > 700){
+	fontSize = 30;
+}
 
 function getRandomLetter() {
 	const letter = letters.charAt(letterIndex);
@@ -16,8 +24,8 @@ function getRandomLetter() {
 }
 
 function createFirework(x, y) {
-	const launchHeight =
-			Math.random() * (window.innerHeight / 4) + window.innerHeight / 4;
+	const launchHeight = Math.random() * (window.innerHeight / 4) + window.innerHeight / 4;
+	const maxHeight = window.innerHeight / 4;
 	const projectile = document.createElement("div");
 	projectile.classList.add("projectile");
 	document.body.appendChild(projectile);
@@ -26,12 +34,15 @@ function createFirework(x, y) {
 
 	anime({
 			targets: projectile,
-			translateY: -launchHeight,
+			translateY: -Math.min(launchHeight, maxHeight),
 			duration: 1200,
 			easing: "easeOutQuad",
 			complete: () => {
+					const burstX = parseFloat(projectile.style.left)	
+					const burstY = parseFloat(projectile.style.top) - Math.min(launchHeight, maxHeight)	
 					projectile.remove();
-					createBurst(x, y - launchHeight);
+					createBurst(burstX, burstY);
+					createAdditionalFireworks(burstX, burstY);
 			}
 	});
 }
@@ -103,8 +114,169 @@ document.addEventListener("click", (e) => {
 
 });
 
-window.onload = function () {
-	const centerX = window.innerWidth / 2;
-	const centerY = window.innerHeight / 2;
-	createFirework(centerX, centerY);
-};
+function createAdditionalFireworks(x, y) {
+	const additionalCount = Math.floor(Math.random() * 1) + 1	;
+	for(let i = 0; i < additionalCount; i++) {
+		const randomX = Math.random() * window.innerWidth;
+		const randomY = Math.random() * 	window.innerHeight;
+		createFirework(randomX, randomY);
+	}
+}
+
+// window.onload = function () {
+// 	createRandomFirework();
+// };
+
+setInterval(createRandomFirework, Math.random() * 10000 + 10000);
+
+function createRandomFirework() {
+	const randomX = Math.random() * window.innerWidth;
+	const randomY = Math.random() * window.innerHeight;
+	createFirework(randomX, randomY);
+}
+
+function backgroundAudio() {
+	if (audioStarted) return;
+	const audio = new Audio('./MyLove.mp3')
+	// audio.loop = true;
+	audio.volume = 0.5;
+	audio.play().then (() => {
+		audioStarted = true;
+	}).catch((error) => {
+		console.log('Audio playback failed:', error)
+	})
+
+	var vara = new Vara (
+		"#container",
+		"https://raw.githubusercontent.com/akzhy/Vara/master/fonts/Satisfy/SatisfySL.json",
+		[
+			{
+				text: "And with this ring I",
+				y: 200,
+				delay: 500,
+				fromCurrentPosition: {y:false},
+				duration: 2750
+			},
+			{
+				text: "Say to the world",
+				y: 200,
+				delay: 400,
+				fromCurrentPosition: {y:false},
+				duration: 2500
+			},
+			{
+				text: "You're my every reason",
+				y: 200,
+				delay: 260,
+				fromCurrentPosition: {y:false},
+				duration: 3000
+			},
+			{
+				text: "You're all that i believe in",
+				y: 200,
+				delay: 250,
+				fromCurrentPosition: {y:false},
+				duration: 2900
+			},
+			{
+				text: "With all my heart I",
+				y: 200,
+				delay: 220,
+				fromCurrentPosition: {y:false},
+				duration: 2700
+			},
+			{
+				text: "Mean every word",
+				y: 200,
+				delay: 700,
+				fromCurrentPosition: {y:false},
+				duration: 3000
+			},
+			{
+				text: "So, I say a little prayer",
+				y: 200,
+				delay: 200,
+				fromCurrentPosition: {y:false},
+				duration: 2600
+			},
+			{
+				text: "And hope my dreams will take me there",
+				y: 200,
+				delay: 400,
+				fromCurrentPosition: {y:false},
+				duration: 3500
+			},
+			{
+				text: "Where the skies are blue",
+				y: 200,
+				delay: 200,
+				fromCurrentPosition: {y:false},
+				duration: 2450
+			},
+			{
+				text: "To see you once again, My Love",
+				y: 200,
+				delay: 500,
+				fromCurrentPosition: {y:false},
+				duration: 3100
+			},
+			{
+				text: "Overseas, from coast to coast",
+				y: 200,
+				delay: 700,
+				fromCurrentPosition: {y:false},
+				duration: 2800
+			},
+			{
+				text: "To find the place I Love the most",
+				y: 200,
+				delay: 200,
+				fromCurrentPosition: {y:false},
+				duration: 3150
+			},
+			{
+				text: "Where the fields are green",
+				y: 200,
+				delay: 200,
+				fromCurrentPosition: {y:false},
+				duration: 2500
+			},
+			{
+				text: "To see you once again . . . . . .",
+				y: 200,
+				delay: 200,
+				fromCurrentPosition: {y:false},
+				duration: 3000
+			},
+			{
+				text: "MY LOVE . . . . . . . .",
+				y: 200,
+				delay: 200,
+				fromCurrentPosition: {y:false},
+				duration: 3500
+			}
+		],
+		{
+			strokeWidth: 2,
+			color: "#fff",
+			fontSize: fontSize,
+			textAlign: "center"
+		}
+	)
+	
+	vara.ready(function(){
+		var erase = true;
+		vara.animationEnd(function(i, o){
+			if(i == "no_erase") erase = false;
+			if(erase){
+				o.container.style.transition = "opacity 0.5s 0.5s";
+				o.container.style.opacity = 0;
+			}
+		})
+	})
+}
+
+document.addEventListener('click', () => {
+	createRandomFirework();
+	backgroundAudio();
+})
