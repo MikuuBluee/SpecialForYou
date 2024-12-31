@@ -1,10 +1,10 @@
 const colors = [
-	"#6495ED",
-	"#FFD700",
-	"#98FB98",
-	"#FA8072",
-	"#2E8B57",
-	"#87CEEB"
+	"#abc4ff",
+	"#FFD1DC",
+	"#adf7b6",
+	"#C3B1E1",
+	"#ff6961",
+	"#FDFD96"
 ];
 const letters = "I LOVE YOU";
 let letterIndex = 0;
@@ -277,6 +277,6 @@ function backgroundAudio() {
 }
 
 document.addEventListener('click', () => {
-	createRandomFirework();
 	backgroundAudio();
+	createRandomFirework();
 })
